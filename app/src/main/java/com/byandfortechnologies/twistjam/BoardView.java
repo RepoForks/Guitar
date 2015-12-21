@@ -61,25 +61,25 @@ public class BoardView extends View {
         canvas.drawPath(mPath, mPaint);
         float rectWideth = (width / 3 - 60) / 11;
         float rectHeight = (width / 3 - 60) / 32;
-        float upWidth  = width / 3 - 60;
+        float upWidth = width / 3 - 60;
         float upStart = width / 3 + 30;
 
         float downWidth = width * 3 / 5 - 60;
         float downStart = width / 5 + 30;
         float downRectWidth = downWidth / 11;
         mPaint.setColor(Color.BLACK);
-        canvas.drawRect(width / 3 + 30, 20, width / 3 + 30 + rectWideth, 20 + rectHeight, mPaint);
-        canvas.drawRect(width / 3 + 30 + rectWideth * 2, 20, width / 3 + 30 + rectWideth * 3, 20 + rectHeight, mPaint);
-        canvas.drawRect(width / 3 + 30 + rectWideth * 4, 20, width / 3 + 30 + rectWideth * 5, 20 + rectHeight, mPaint);
-        canvas.drawRect(width / 3 + 30 + rectWideth * 6, 20, width / 3 + 30 + rectWideth * 7, 20 + rectHeight, mPaint);
-        canvas.drawRect(width / 3 + 30 + rectWideth * 8, 20, width / 3 + 30 + rectWideth * 9, 20 + rectHeight, mPaint);
-        canvas.drawRect(width / 3 + 30 + rectWideth * 10, 20, width / 3 + 30 + rectWideth * 11, 20 + rectHeight, mPaint);
+        canvas.drawRect(upStart, 20, upStart + rectWideth, 20 + rectHeight, mPaint);
+        canvas.drawRect(upStart + rectWideth * 2, 20, upStart + rectWideth * 3, 20 + rectHeight, mPaint);
+        canvas.drawRect(upStart + rectWideth * 4, 20, upStart + rectWideth * 5, 20 + rectHeight, mPaint);
+        canvas.drawRect(upStart + rectWideth * 6, 20, upStart + rectWideth * 7, 20 + rectHeight, mPaint);
+        canvas.drawRect(upStart + rectWideth * 8, 20, upStart + rectWideth * 9, 20 + rectHeight, mPaint);
+        canvas.drawRect(upStart + rectWideth * 10, 20, upStart + rectWideth * 11, 20 + rectHeight, mPaint);
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(10f);
         float[] pts = {upStart + rectWideth / 2, 20 + rectHeight, downStart + downRectWidth / 2, height - 10,
                 upStart + rectWideth * 5 / 2, 20 + rectHeight, downStart + downRectWidth * 5 / 2, height - 10,
                 upStart + rectWideth * 9 / 2, 20 + rectHeight, downStart + downRectWidth * 9 / 2, height - 10,
-                upStart + rectWideth * 13/ 2, 20 + rectHeight, downStart + downRectWidth * 13 / 2, height - 10,
+                upStart + rectWideth * 13 / 2, 20 + rectHeight, downStart + downRectWidth * 13 / 2, height - 10,
                 upStart + rectWideth * 17 / 2, 20 + rectHeight, downStart + downRectWidth * 17 / 2, height - 10,
                 upStart + rectWideth * 21 / 2, 20 + rectHeight, downStart + downRectWidth * 21 / 2, height - 10};
         canvas.drawLines(pts, mPaint);
