@@ -33,8 +33,7 @@ public class BoardView extends View {
 
         int width = canvas.getWidth();
         int height = canvas.getHeight();
-        Log.d("x+y: ", width + "+" + height);
-        context = context;
+
         // we set a new Path
         mPath = new Path();
         mPaint = new Paint();
@@ -76,13 +75,13 @@ public class BoardView extends View {
         canvas.drawRect(upStart + rectWideth * 10, 20, upStart + rectWideth * 11, 20 + rectHeight, mPaint);
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(10f);
-        float[] pts = {upStart + rectWideth / 2, 20 + rectHeight, downStart + downRectWidth / 2, height - 10,
+        float[] mPoints = {upStart + rectWideth / 2, 20 + rectHeight, downStart + downRectWidth / 2, height - 10,
                 upStart + rectWideth * 5 / 2, 20 + rectHeight, downStart + downRectWidth * 5 / 2, height - 10,
                 upStart + rectWideth * 9 / 2, 20 + rectHeight, downStart + downRectWidth * 9 / 2, height - 10,
                 upStart + rectWideth * 13 / 2, 20 + rectHeight, downStart + downRectWidth * 13 / 2, height - 10,
                 upStart + rectWideth * 17 / 2, 20 + rectHeight, downStart + downRectWidth * 17 / 2, height - 10,
                 upStart + rectWideth * 21 / 2, 20 + rectHeight, downStart + downRectWidth * 21 / 2, height - 10};
-        canvas.drawLines(pts, mPaint);
+        canvas.drawLines(mPoints, mPaint);
     }
 
 }
