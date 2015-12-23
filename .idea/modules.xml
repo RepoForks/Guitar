@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Twistjam.iml" filepath="$PROJECT_DIR$/Twistjam.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Guitar.iml" filepath="$PROJECT_DIR$/Guitar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

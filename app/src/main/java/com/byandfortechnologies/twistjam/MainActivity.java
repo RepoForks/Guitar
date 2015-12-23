@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 mRelativeLayoutHeight = mBoardLayout.getHeight();
                 mBoardLayout.getViewTreeObserver().removeGlobalOnLayoutListener(
                         this);
-                mBoardAnim = new TranslateAnimation(mRelativeLayoutWidth / 3, mRelativeLayoutWidth / 5, 20, mRelativeLayoutHeight - 50);
+                mBoardAnim = new TranslateAnimation(mRelativeLayoutWidth / 3-100, mRelativeLayoutWidth / 5-100, 20, mRelativeLayoutHeight - 100);
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
