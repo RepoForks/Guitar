@@ -13,6 +13,34 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="text_black">
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
+    <style name="text_gray" parent="text_black">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <color name="blue">#72BAE7</color>
+
+    <style name="text_large_black" parent="text_black">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="text_small_gray" parent="text_gray">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="text_blue">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
+    <style name="text_small_blue" parent="text_blue">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
