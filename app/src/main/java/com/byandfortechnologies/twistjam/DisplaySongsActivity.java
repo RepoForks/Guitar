@@ -82,10 +82,12 @@ public class DisplaySongsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         mSongList = listAllSongs();
-        mAdapterListFile.setSongsList(mSongList);
-        mLinearListImportedFiles.setVisibility(View.VISIBLE);
-        mRelativeBtnImport.setVisibility(View.GONE);
-        serviceMusic.setSongList(mSongList);
+        if (mSongList!=null) {
+            mAdapterListFile.setSongsList(mSongList);
+            mLinearListImportedFiles.setVisibility(View.VISIBLE);
+            mRelativeBtnImport.setVisibility(View.GONE);
+            serviceMusic.setSongList(mSongList);
+        }
     }
 
     private ArrayList<Song> listAllSongs() { //Fetch path to all the files from internal & external storage n store it in songList
