@@ -38,7 +38,7 @@ public class SplashScreen extends Activity {
 
             @Override
             public void run() {
-                Intent startScreen = new Intent(getApplicationContext(), DisplaySongsActivity.class);
+                Intent startScreen = new Intent(getApplicationContext(), PlayerActivity.class);
                 startActivity(startScreen);
                 finish();
             }

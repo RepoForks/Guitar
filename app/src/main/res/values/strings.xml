@@ -4,4 +4,11 @@
 
     <string name="no_songs">No Songs Available !!</string>
     <string name="btn_import">Import Songs</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string-array name="tabs">
+        <item>Tracks</item>
+        <item>Artist</item>
+        <item>Album</item>
+    </string-array>
 </resources>
