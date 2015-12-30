@@ -13,7 +13,7 @@ import android.view.View;
  * Created by wei on 12/27/2015.
  */
 public class SplashScreen extends Activity {
-    private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class SplashScreen extends Activity {
 
             @Override
             public void run() {
-                Intent startScreen = new Intent(getApplicationContext(), PlayerActivity.class);
+                Intent startScreen = new Intent(getApplicationContext(),PlayerActivity.class);
                 startActivity(startScreen);
                 finish();
             }
