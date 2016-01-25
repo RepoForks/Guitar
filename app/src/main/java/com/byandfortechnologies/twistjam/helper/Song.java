@@ -2,10 +2,12 @@ package com.byandfortechnologies.twistjam.helper;
 
 import android.net.Uri;
 
+import java.io.Serializable;
+
 /**
  * Created by AcadGildMentor on 6/5/2015.
  */
-public class Song {
+public class Song implements Serializable {
     private String mSongName, mSongAlbumName , mSongFullPath , mSongDuration ;
     private Uri mSongUri;
     private int mSongId;
