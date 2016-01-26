@@ -138,9 +138,9 @@ public class FragmentDrawer extends Fragment {
             @Override
             public void run() {
                 mDrawerToggle.syncState();
-                if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-                    mDrawerLayout.openDrawer(mContainer);
-                }
+//                if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+//                    mDrawerLayout.openDrawer(mContainer);
+//                }
             }
         });
 

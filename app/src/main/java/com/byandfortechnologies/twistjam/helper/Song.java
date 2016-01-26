@@ -9,11 +9,13 @@ import java.io.Serializable;
  */
 public class Song implements Serializable {
     private String mSongName, mSongAlbumName , mSongFullPath , mSongDuration ;
-    private Uri mSongUri;
+    private String mSongUri;
+    //private Uri mSongUri;
     private int mSongId;
 
+
     public Song(){ }
-    public Song(String name, int id, String album_name, String full_path, String duration, Uri songuri){
+    public Song(String name, int id, String album_name, String full_path, String duration, String songuri){
         this.mSongName = name;
         this.mSongId = id;
         this.mSongAlbumName = album_name;
@@ -61,9 +63,17 @@ public class Song implements Serializable {
         this.mSongId = mSongId;
     }
 
-    public void setSongUri(Uri uri){ this.mSongUri = uri; }
-
-    public Uri getSongUri(){
-        return this.mSongUri;
+    public String getSongUri() {
+        return mSongUri;
     }
+
+    public void setSongUri(String mSongUri) {
+        this.mSongUri = mSongUri;
+    }
+
+    //public void setSongUri(Uri uri){ this.mSongUri = uri; }
+
+//    public Uri getSongUri(){
+//        return this.mSongUri;
+//    }
 }

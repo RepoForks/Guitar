@@ -183,5 +183,8 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
         serviceMusic = null;
         super.onDestroy();
     }
+    public static void stopMusic(){
+
+    }
 
 }

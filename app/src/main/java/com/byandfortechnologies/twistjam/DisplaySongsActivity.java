@@ -111,7 +111,7 @@ public class DisplaySongsActivity extends AppCompatActivity implements View.OnCl
                         song.setSongAlbumName(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
                         song.setSongUri(ContentUris.withAppendedId(
                                 android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                                cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID))));
+                                cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID))).toString());
                         String duration = getDuration(Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))));
                         song.setSongDuration(duration);
 

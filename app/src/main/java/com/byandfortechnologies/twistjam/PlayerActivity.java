@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -194,7 +195,7 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
                         song.setSongAlbumName(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
                         song.setSongUri(ContentUris.withAppendedId(
                                 android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                                cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID))));
+                                cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID))).toString());
                         String duration = getDuration(Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))));
                         song.setSongDuration(duration);
 
@@ -232,7 +233,15 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
 
     public void onDrawerSlide(float slideOffset) {}
 
-
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+        {
+            this.moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 
 }

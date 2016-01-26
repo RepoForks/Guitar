@@ -114,7 +114,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 SONG_POS++;
             } else
                 SONG_POS = 0;
-            mPlayer.setDataSource(getApplicationContext(), mListSongs.get(SONG_POS).getSongUri());
+            mPlayer.setDataSource(getApplicationContext(), Uri.parse(mListSongs.get(SONG_POS).getSongUri()));
         } catch (Exception e) {
             Log.e("MUSIC SERVICE", "Error setting data source", e);
         }
@@ -170,12 +170,12 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void nextSong() {
-        startSong(mListSongs.get(SONG_POS + 1).getSongUri(), mListSongs.get(SONG_POS + 1).getSongName());
+        startSong(Uri.parse(mListSongs.get(SONG_POS + 1).getSongUri()), mListSongs.get(SONG_POS + 1).getSongName());
         SONG_POS++;
     }
 
     public void previousSong() {
-        startSong(mListSongs.get(SONG_POS - 1).getSongUri(), mListSongs.get(SONG_POS - 1).getSongName());
+        startSong(Uri.parse(mListSongs.get(SONG_POS - 1).getSongUri()), mListSongs.get(SONG_POS - 1).getSongName());
         SONG_POS--;
     }
 
@@ -194,9 +194,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void setSelectedSong(int pos, int notification_id) {
         SONG_POS = pos;
         NOTIFICATION_ID = notification_id;
-        setSongURI(mListSongs.get(SONG_POS).getSongUri());
+        setSongURI(Uri.parse(mListSongs.get(SONG_POS).getSongUri()));
         showNotification();
-        startSong(mListSongs.get(SONG_POS).getSongUri(), mListSongs.get(SONG_POS).getSongName());
+        startSong(Uri.parse(mListSongs.get(SONG_POS).getSongUri()), mListSongs.get(SONG_POS).getSongName());
     }
 
     public void setSongList(ArrayList<Song> listSong) {
