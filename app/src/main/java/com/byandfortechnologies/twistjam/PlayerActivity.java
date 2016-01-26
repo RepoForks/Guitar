@@ -1,10 +1,8 @@
 package com.byandfortechnologies.twistjam;
 
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,10 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.byandfortechnologies.twistjam.fragments.FragmentSearch;
+import com.byandfortechnologies.twistjam.fragments.FragmentTracks;
 import com.byandfortechnologies.twistjam.fragments.FragmentUpcoming;
 import com.byandfortechnologies.twistjam.helper.Song;
-import com.byandfortechnologies.twistjam.services.MusicService;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -150,7 +147,7 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
             switch (num) {
                 case TAB_SEARCH_RESULTS:
                     //fragment = FragmentUpcoming.newInstance("", "");
-                    fragment = FragmentSearch.newInstance(mSongList, "");
+                    fragment = FragmentTracks.newInstance(mSongList, "");
                     break;
                 case TAB_HITS:
                     fragment = FragmentUpcoming.newInstance("", "");

@@ -2,17 +2,14 @@ package com.byandfortechnologies.twistjam.fragments;
 
 
 import android.content.ComponentName;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +29,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentSearch#newInstance} factory method to
+ * Use the {@link FragmentTracks#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSearch extends Fragment implements AdapterView.OnItemClickListener {
+public class FragmentTracks extends Fragment implements AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -50,13 +47,14 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
     private MusicService serviceMusic;
     private Intent playIntent;
     Context context;
+    public static Integer preSongPosition;
 
     // TODO: Rename and change types of parameters
     private ArrayList<Song> mParam1;
     private String mParam2;
 
 
-    public FragmentSearch() {
+    public FragmentTracks() {
         // Required empty public constructor
     }
 
@@ -66,11 +64,11 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSearch.
+     * @return A new instance of fragment FragmentTracks.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSearch newInstance(String param1, String param2) {
-        FragmentSearch fragment = new FragmentSearch();
+    public static FragmentTracks newInstance(String param1, String param2) {
+        FragmentTracks fragment = new FragmentTracks();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,8 +76,8 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
         return fragment;
     }
 
-    public static FragmentSearch newInstance(ArrayList<Song> param1, String param2) {
-        FragmentSearch fragment = new FragmentSearch();
+    public static FragmentTracks newInstance(ArrayList<Song> param1, String param2) {
+        FragmentTracks fragment = new FragmentTracks();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -128,16 +126,16 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
         if (mSongList != null && mSongList.size() != 0) {
             mAdapterListFile = new SongListAdapter(getContext(), mSongList);
             mListSongs.setAdapter(mAdapterListFile);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+
                     mAdapterListFile.setSongsList(mSongList);
                     mLinearListImportedFiles.setVisibility(View.VISIBLE);
                     mRelativeBtnImport.setVisibility(View.GONE);
-                    serviceMusic.setSongList(mSongList);
-                }
-            }, 1000);
-
+                    //serviceMusic.setSongList(mSongList);
+                    if (serviceMusic==null){
+                        Log.d("serviceMusic is ","null");
+                    }else {
+                        Log.d("serviceMusic is ","not null");
+                    }
         }
     }
 
@@ -145,6 +143,7 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicService.PlayerBinder binder = (MusicService.PlayerBinder) service;
+            Log.d("serviceMusic is ","created");
             //get service
             serviceMusic = binder.getService();
             serviceMusic.setSongList(mSongList);
@@ -159,7 +158,17 @@ public class FragmentSearch extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+        if (preSongPosition!=null) {
+            Log.d("song_position", "pre:" + preSongPosition+" .current:"+i);
+        }
+        if (preSongPosition==null){
+            serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+        }else if (preSongPosition==i) {
+           // context.startService(playIntent);
+            serviceMusic.playPauseSong();
+        }else
+            serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+
     }
 
     @Override

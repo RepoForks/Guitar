@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.byandfortechnologies.twistjam.R;
+import com.byandfortechnologies.twistjam.fragments.FragmentTracks;
 import com.byandfortechnologies.twistjam.helper.Song;
 
 import java.util.ArrayList;
@@ -85,13 +86,17 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             if (!TextUtils.isEmpty(action)) {
                 if (action.equals(ACTION_PAUSE)) {
                     playPauseSong();
+                    Log.d("action_click","action_pause"+action);
                 } else if (action.equals(ACTION_NEXT)) {
                     nextSong();
+                    Log.d("action_click", "action_next"+action);
                 } else if (action.equals(ACTION_PREVIOUS)) {
                     previousSong();
+                    Log.d("action_click", "action_previous"+action);
                 } else if (action.equals(ACTION_STOP)) {
                     stopSong();
                     stopSelf();
+                    Log.d("action_click", "action_stop"+action);
                 }
             }
         }
@@ -197,6 +202,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         setSongURI(Uri.parse(mListSongs.get(SONG_POS).getSongUri()));
         showNotification();
         startSong(Uri.parse(mListSongs.get(SONG_POS).getSongUri()), mListSongs.get(SONG_POS).getSongName());
+        FragmentTracks.preSongPosition = pos;
     }
 
     public void setSongList(ArrayList<Song> listSong) {
