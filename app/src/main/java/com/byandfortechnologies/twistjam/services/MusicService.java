@@ -43,7 +43,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     private static final int STATE_PAUSED = 1;
     private static final int STATE_PLAYING = 2;
-    private int mState = 0;
+    public static int mState = 0;
     private static final int REQUEST_CODE_PAUSE = 101;
     private static final int REQUEST_CODE_PREVIOUS = 102;
     private static final int REQUEST_CODE_NEXT = 103;

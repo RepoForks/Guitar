@@ -1,14 +1,19 @@
 package com.byandfortechnologies.twistjam;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +22,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.byandfortechnologies.twistjam.fragments.FragmentTracks;
 import com.byandfortechnologies.twistjam.fragments.FragmentUpcoming;
@@ -38,6 +44,9 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
     private ArrayList<Song> mSongList;
     private FragmentDrawer mDrawerFragment;
     private Intent playIntent;
+    private Menu menu;
+    private static ColorStateList sColorStatePlaying;
+    private static ColorStateList sColorStateNotPlaying;
 
 
     public static final int TAB_SEARCH_RESULTS = 0;
@@ -54,10 +63,20 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
         setContentView(R.layout.activity_player);
         mSongList = listAllSongs();
         setupTabs();
+        if (sColorStateNotPlaying == null || sColorStatePlaying == null) {
+            initializeColorStateLists(PlayerActivity.this);
+        }
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ImageView mImagePlaying = (ImageView) toolbar.findViewById(R.id.playing_image_app_bar);
+        AnimationDrawable animation = (AnimationDrawable)
+                ContextCompat.getDrawable(PlayerActivity.this,R.drawable.ic_equalizer_white_36dp);
+        mImagePlaying.setImageDrawable(animation);
+        mImagePlaying.setImageTintList(sColorStatePlaying);
+        if (animation != null) animation.start();
+
         mDrawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         mDrawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
@@ -100,9 +119,9 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -238,6 +257,13 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    static private void initializeColorStateLists(Context ctx) {
+        sColorStateNotPlaying = ColorStateList.valueOf(ctx.getResources().getColor(
+                R.color.media_item_icon_not_playing));
+        sColorStatePlaying = ColorStateList.valueOf(ctx.getResources().getColor(
+                R.color.media_item_icon_playing));
     }
 
 
