@@ -54,7 +54,7 @@ public class SongListAdapter extends BaseAdapter {
         TextView mTxtSongDuration = (TextView) convertView.findViewById(R.id.txt_listitem_duration);
 
 
-        mImgSong.setImageResource(R.mipmap.ic_launcher);
+        //mImgSong.setImageResource(R.mipmap.ic_launcher);
         mtxtSongName.setText(songList.get(position).getSongName());
         mTxtSongAlbumName.setText(songList.get(position).getSongAlbumName());
         mTxtSongDuration.setText(songList.get(position).getSongDuration());

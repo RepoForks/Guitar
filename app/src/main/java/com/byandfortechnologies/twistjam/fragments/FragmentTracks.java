@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.byandfortechnologies.twistjam.MainActivity;
 import com.byandfortechnologies.twistjam.R;
 import com.byandfortechnologies.twistjam.adapters.SongListAdapter;
 import com.byandfortechnologies.twistjam.helper.Song;
@@ -112,11 +113,12 @@ public class FragmentTracks extends Fragment implements AdapterView.OnItemClickL
         mLinearListImportedFiles = (LinearLayout) view.findViewById(R.id.linear_list_imported_files);
         mRelativeBtnImport = (RelativeLayout) view.findViewById(R.id.relative_btn_import);
         mListSongs = (ListView) view.findViewById(R.id.list_songs_actimport);
-        if (playIntent == null) {
-            playIntent = new Intent(context, MusicService.class);
-            context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            context.startService(playIntent);
-        }
+//        if (playIntent == null) {
+//            playIntent = new Intent(context, MusicService.class);
+//            context.startService(playIntent);
+//            context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+//
+//        }
         init();
         return view;
     }
@@ -132,42 +134,54 @@ public class FragmentTracks extends Fragment implements AdapterView.OnItemClickL
                     mRelativeBtnImport.setVisibility(View.GONE);
                     //serviceMusic.setSongList(mSongList);
                     if (serviceMusic==null){
-                        Log.d("serviceMusic is ",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "null");
+                        Log.d("serviceMusic is ","null");
+
                     }else {
                         Log.d("serviceMusic is ","not null");
                     }
         }
     }
 
-    private ServiceConnection musicConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.PlayerBinder binder = (MusicService.PlayerBinder) service;
-            Log.d("serviceMusic is ","created");
-            //get service
-            serviceMusic = binder.getService();
-            serviceMusic.setSongList(mSongList);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
+//    private ServiceConnection musicConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            MusicService.PlayerBinder binder = (MusicService.PlayerBinder) service;
+//            Log.d("serviceMusic is ","created");
+//            //get service
+//            serviceMusic = binder.getService();
+//            serviceMusic.setSongList(mSongList);
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//
+//        }
+//    };
 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
         if (preSongPosition!=null) {
             Log.d("song_position", "pre:" + preSongPosition+" .current:"+i);
         }
         if (preSongPosition==null){
-            serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+            //serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+            Intent playMusicIntent = new Intent(getActivity(), MainActivity.class);
+            playMusicIntent.putExtra("position", i);
+            startActivity(playMusicIntent);
         }else if (preSongPosition==i) {
-           // context.startService(playIntent);
-            serviceMusic.playPauseSong();
-        }else
-            serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+            Intent playMusicIntent = new Intent(getActivity(), MainActivity.class);
+            playMusicIntent.putExtra("position", i);
+            startActivity(playMusicIntent);
+            // context.startService(playIntent);
+            //serviceMusic.playPauseSong();
+        }else {
+            Intent playMusicIntent = new Intent(getActivity(), MainActivity.class);
+            playMusicIntent.putExtra("position", i);
+            startActivity(playMusicIntent);
+            //serviceMusic.setSelectedSong(i, MusicService.NOTIFICATION_ID);
+        }
 
     }
 

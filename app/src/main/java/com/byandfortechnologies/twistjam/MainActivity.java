@@ -1,6 +1,9 @@
 package com.byandfortechnologies.twistjam;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,18 +24,25 @@ import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.byandfortechnologies.twistjam.services.MusicService;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
 
-    View mView;
+    private View mView;
     private Paint mPaint;
     private RelativeLayout mBoardLayout;
     int mRelativeLayoutWidth, mRelativeLayoutHeight;
-    TranslateAnimation mBoardAnim;
-    Context context;
+    private TranslateAnimation mBoardAnim;
+    private Context context;
+    private Intent playIntent;
+    private MusicService serviceMusic;
+    private Integer preSongPosition;
+    boolean isBound = false;
 
 
     @Override
@@ -40,9 +51,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         mBoardLayout = (RelativeLayout) findViewById(R.id.board_layout);
         context = MainActivity.this;
-
+        if (playIntent == null) {
+            playIntent = new Intent(context, MusicService.class);
+            isBound = getApplicationContext().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
+            context.startService(playIntent);
+        }
 
         ViewTreeObserver observer = mBoardLayout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -54,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 mRelativeLayoutHeight = mBoardLayout.getHeight();
                 mBoardLayout.getViewTreeObserver().removeGlobalOnLayoutListener(
                         this);
-                mBoardAnim = new TranslateAnimation(mRelativeLayoutWidth / 3-100, mRelativeLayoutWidth / 5-100, 20, mRelativeLayoutHeight - 100);
+                mBoardAnim = new TranslateAnimation(mRelativeLayoutWidth / 3 - 100, mRelativeLayoutWidth / 5 - 100, 20, mRelativeLayoutHeight - 100);
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
@@ -75,13 +92,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.myDrawing);
-        mView = new DrawingView(this);
-        layout.addView(mView, new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
+//        LinearLayout layout = (LinearLayout) findViewById(R.id.myDrawing);
+//        mView = new DrawingView(this);
+//        layout.addView(mView, new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT));
+        mBoardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                serviceMusic.playPauseSong();
+            }
+        });
         init();
     }
+
+    private ServiceConnection musicConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.PlayerBinder binder = (MusicService.PlayerBinder) service;
+            Log.d("serviceMusic is ", "created");
+            //get service
+            serviceMusic = binder.getService();
+            int mPosition = getIntent().getIntExtra("position",0);
+            Log.d("mPosition",String.valueOf(mPosition));
+            serviceMusic.setSelectedSong(mPosition, MusicService.NOTIFICATION_ID);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
 
     //    @Override
@@ -174,5 +216,17 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isBound)
+            getApplicationContext().unbindService(musicConnection);
     }
 }

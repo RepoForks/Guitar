@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -22,11 +23,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.byandfortechnologies.twistjam.fragments.FragmentTracks;
 import com.byandfortechnologies.twistjam.fragments.FragmentUpcoming;
 import com.byandfortechnologies.twistjam.helper.Song;
+import com.byandfortechnologies.twistjam.services.MusicService;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +38,7 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
-public class PlayerActivity extends AppCompatActivity implements MaterialTabListener, View.OnClickListener  {
+public class PlayerActivity extends AppCompatActivity implements MaterialTabListener, View.OnClickListener {
     private Toolbar toolbar;
     private MaterialTabHost mTabHost;
     private ViewPager mPager;
@@ -47,6 +50,7 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
     private Menu menu;
     private static ColorStateList sColorStatePlaying;
     private static ColorStateList sColorStateNotPlaying;
+    private ImageView mImagePlaying;
 
 
     public static final int TAB_SEARCH_RESULTS = 0;
@@ -70,12 +74,8 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ImageView mImagePlaying = (ImageView) toolbar.findViewById(R.id.playing_image_app_bar);
-        AnimationDrawable animation = (AnimationDrawable)
-                ContextCompat.getDrawable(PlayerActivity.this,R.drawable.ic_equalizer_white_36dp);
-        mImagePlaying.setImageDrawable(animation);
-        mImagePlaying.setImageTintList(sColorStatePlaying);
-        if (animation != null) animation.start();
+        mImagePlaying = (ImageView) toolbar.findViewById(R.id.playing_image_app_bar);
+
 
         mDrawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -189,6 +189,7 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
             return getResources().getStringArray(R.array.tabs)[position];
         }
     }
+
     private ArrayList<Song> listAllSongs() { //Fetch path to all the files from internal & external storage n store it in songList
         Cursor cursor;
         ArrayList<Song> songList = new ArrayList<Song>();
@@ -247,12 +248,11 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
         return sb.toString();
     }
 
-    public void onDrawerSlide(float slideOffset) {}
+    public void onDrawerSlide(float slideOffset) {
+    }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             this.moveTaskToBack(true);
             return true;
         }
@@ -266,5 +266,29 @@ public class PlayerActivity extends AppCompatActivity implements MaterialTabList
                 R.color.media_item_icon_playing));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MusicService.mState == 0 || MusicService.mState == 1) {
+            mImagePlaying.setImageDrawable(getResources().getDrawable(R.drawable.ic_equalizer1_white_36dp));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mImagePlaying.setImageTintList(null);
+            } else {
+                mImagePlaying.setColorFilter(getResources().getColor(
+                        R.color.white));
+            }
+        } else {
+            AnimationDrawable animation = (AnimationDrawable)
+                    ContextCompat.getDrawable(PlayerActivity.this, R.drawable.ic_equalizer_white_36dp);
+            mImagePlaying.setImageDrawable(animation);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mImagePlaying.setImageTintList(sColorStatePlaying);
+            } else {
+                mImagePlaying.setColorFilter(getResources().getColor(
+                        R.color.media_item_icon_playing));
+            }
 
+            if (animation != null) animation.start();
+        }
+    }
 }
